@@ -1,39 +1,24 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "disemvowel.h"
 
 #define BUF_SIZE 1024
 
-bool is_vowel(char c) {
-    /*
-     * Returns true if c is a vowel (upper or lower case), and
-     * false otherwise.
-     */
-}
-
-int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
-    /*
-     * Copy all the non-vowels from in_buf to out_buf.
-     * num_chars indicates how many characters are in in_buf,
-     * and this function should return the number of non-vowels that
-     * that were copied over.
-     */
-}
 
 void disemvowel_file(FILE* inputFile, FILE* outputFile) {
-    /*
-     * Copy all the non-vowels from inputFile to outputFile.
-     * Create input and output buffers, and use fread() to repeatedly read
-     * in a buffer of data, copy the non-vowels to the output buffer, and
-     * use fwrite to write that out.
-     */
 
+    // Allocate array of chars with size BUF_SIZE
     char buffer[BUF_SIZE];
 
+    // While fgets hasn't gotten to the end of the file
     while(fgets(buffer, sizeof(buffer), inputFile)) {
+        // Pass the current string in the buffer to our existing disemvowel function
         char* disemvoweled = disemvowel(buffer);
+        // Write the disemvoweled string to the output file
         fputs(disemvoweled, outputFile);
+        free(disemvoweled);
     }
 
 }
@@ -47,12 +32,16 @@ int main(int argc, char *argv[]) {
 
 
     if(argc == 1) {
+        // If no arguments, use stdin and stdout
         inputFile = stdin;
         outputFile = stdout;
     } else if (argc == 2) {
+        // If one argument use the file provided as input and stdout for output
         inputFile = fopen(argv[1], "r");
         outputFile = stdout;
     } else {
+        // If two arguments use the first file as input and the second file as output\
+        // If there are more than 2 arguments the remaining are ignored
         inputFile = fopen(argv[1], "r");
         outputFile = fopen(argv[2], "w");
     }
@@ -61,6 +50,9 @@ int main(int argc, char *argv[]) {
     // and sets up inputFile and outputFile.
 
     disemvowel_file(inputFile, outputFile);
+
+    free(inputFile);
+    free(outputFile);
 
     return 0;
 }
