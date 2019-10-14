@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
         inputFile = fopen(argv[1], "r");
         outputFile = stdout;
     } else {
-        // If two arguments use the first file as input and the second file as output\
+        // If two arguments use the first file as input and the second file as output
         // If there are more than 2 arguments the remaining are ignored
         inputFile = fopen(argv[1], "r");
         outputFile = fopen(argv[2], "w");
