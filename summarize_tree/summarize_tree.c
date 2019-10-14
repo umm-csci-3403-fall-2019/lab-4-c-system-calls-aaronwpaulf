@@ -18,9 +18,11 @@ bool is_dir(const char* path) {
    */
   struct stat *newstat = malloc(sizeof(struct stat));
   if(stat(path, newstat)) {
+    // If stat doesn't return 0 there was an error so right now we just return false
     free(newstat);
     return false;
   } else {
+    // If stat was successful 
     bool is_dir = S_ISDIR(newstat->st_mode);
     free(newstat);
     return is_dir;
@@ -47,17 +49,20 @@ void process_directory(const char* path) {
    * done.
    */
   num_dirs++;
-  chdir(path);
+  chdir(path); // Go into the given path
   DIR *dir = opendir(".");
-  struct dirent *de;
-  while ((de = readdir(dir)) != NULL) {
-    if(strcmp(de->d_name,".") && strcmp(de->d_name,"..")) { 
+  struct dirent *de; // directory entry
+
+  while ((de = readdir(dir)) != NULL) { // While there is a directory to read
+    // Call process_path as long as the directory is not "." or ".."
+    if(strcmp(de->d_name,".") && strcmp(de->d_name,"..")) {
       process_path(de->d_name);
     }
   }
+
   closedir(dir);
   free(de);
-  chdir("..");
+  chdir(".."); // Go back up from the path we are in
 }
 
 void process_file(const char* path) {
