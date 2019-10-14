@@ -1,0 +1,5 @@
+{
+    "files.watcherExclude": {
+        "**/summarize_tree/test_data/**": true
+    }
+}
