@@ -51,8 +51,8 @@ int main(int argc, char *argv[]) {
 
     disemvowel_file(inputFile, outputFile);
 
-    free(inputFile);
-    free(outputFile);
+    fclose(inputFile);
+    fclose(outputFile);
 
     return 0;
 }
